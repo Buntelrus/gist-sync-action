@@ -17,9 +17,9 @@ description=$(echo $4 | sed 's/\"/\\"/g')
 content=$(sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' $5 | sed 's/\"/\\"/g')
 
 json='{"description": "'"$description"'", "files": {"'"$title"'": {"content": "'"$content"'"}}}'
-jq -aRs . <<< "$json"
+#jq -aRs . <<< "$json"
 
-#curl -s -X PATCH \
-#    -H "Content-Type: application/json" \
-#    -H "Authorization: token $auth_token" \
-#    -d '{"description": "'"$description"'", "files": {"'"$title"'": {"content": "'"$content"'"}}}' $gist_endpoint
+curl -s -X PATCH \
+    -H "Content-Type: application/json" \
+    -H "Authorization: token $auth_token" \
+    -d "$(jq -aRs . <<< "$json")" $gist_endpoint
