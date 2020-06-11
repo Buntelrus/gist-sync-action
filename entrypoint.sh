@@ -14,12 +14,12 @@ gist_endpoint=$gist_api$gist_id
 
 title=$(echo $3 | sed 's/\"/\\"/g')
 description=$(echo $4 | sed 's/\"/\\"/g')
-content=$(echo $5 | sed 's/\"/\\"/g')
+github_file=$(echo $5 | sed 's/\"/\\"/g')
 
 json=$( jq -n \
                   --arg description "$description" \
                   --arg title "$title" \
-                  --arg content "$content" \
+                  --arg content "$(cat $github_file)" \
                   '{description: $description, files: {filetitle: {content: $content}}}' )
 echo $json
 
