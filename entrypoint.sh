@@ -17,7 +17,7 @@ description=$(echo $4 | sed 's/\"/\\"/g')
 content=$(sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' $5 | sed 's/\"/\\"/g')
 
 declare -A log
-log=([gist_id]=$gist_id [gist_endpoint]=$gist_endpoint [title]=$title [description]=$description [content]=$content)
+log=([gist_id]="$gist_id" [gist_endpoint]="$gist_endpoint" [title]="$title" [description]="$description" [content]="$content")
 typeset -p log
 
 #curl -s -X PATCH \
