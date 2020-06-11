@@ -16,9 +16,8 @@ title=$(echo $3 | sed 's/\"/\\"/g')
 description=$(echo $4 | sed 's/\"/\\"/g')
 content=$(sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' $5 | sed 's/\"/\\"/g')
 
-declare -A log
-log=([gist_id]="$gist_id" [gist_endpoint]="$gist_endpoint" [title]="$title" [description]="$description" [content]="$content")
-typeset -p log
+json='{"description": "'"$description"'", "files": {"'"$title"'": {"content": "'"$content"'"}}}'
+echo $json
 
 #curl -s -X PATCH \
 #    -H "Content-Type: application/json" \
