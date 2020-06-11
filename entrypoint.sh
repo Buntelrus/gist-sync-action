@@ -18,9 +18,8 @@ github_file=$(echo $5 | sed 's/\"/\\"/g')
 
 json=$( jq -n \
                   --arg description "$description" \
-                  --arg title "$title" \
                   --arg content "$(cat $github_file)" \
-                  '{description: $description, files: {filetitle: {content: $content}}}' )
+                  "{description: \$description, files: {$title: {content: \$content}}}" )
 echo $json
 
 #curl -s -X PATCH \
