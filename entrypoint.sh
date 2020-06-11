@@ -20,9 +20,9 @@ json=$( jq -n \
                   --arg description "$description" \
                   --arg content "$(cat $github_file)" \
                   "{description: \$description, files: {\"$title\": {content: \$content}}}" )
-echo $json
+#echo $json
 
-#curl -s -X PATCH \
-#    -H "Content-Type: application/json" \
-#    -H "Authorization: token $auth_token" \
-#    -d '{"description": "'"$description"'", "files": {"'"$title"'": {"content": "'"$content"'"}}}' $gist_endpoint
+curl -s -X PATCH \
+    -H "Content-Type: application/json" \
+    -H "Authorization: token $auth_token" \
+    -d "$json" $gist_endpoint
