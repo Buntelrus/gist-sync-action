@@ -2,30 +2,34 @@ name: "gist-sync"
 author: "Michael Salsone"
 description: "Sync a Gist from a Github file"
 inputs:
-  auth:
+  auth_token:
     description: "Auth token with gist permissions"
     required: true
+  auth_user:
+    description: "Gist owner"
+    required: true
+  auth_email:
+    description: "Gist owner email (used for git)"
+    required: true
   gist_url:
-    description: "URL of the gist"
+    description: "Url to gist"
     required: true
-  gist_title:
-    description: "Title of the gist"
-    required: true
-  gist_description:
-    description: "Description of the gist"
-    required: true
-  github_file:
+  file:
     description: "The Filename with the contents we want to mirror"
     required: true
+  history:
+    description: "Can be true or false. If false I'll use git commit --amend to not add revisions. Default is false"
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.auth }}
+    - ${{ inputs.auth_token }}
+    - ${{ inputs.auth_user }}
+    - ${{ inputs.auth_email }}
     - ${{ inputs.gist_url }}
-    - ${{ inputs.gist_title }}
-    - ${{ inputs.gist_description }}
-    - ${{ inputs.github_file }}
+    - ${{ inputs.file }}
+    - ${{ inputs.history }}
 branding:
   icon: 'code'
   color: 'green'

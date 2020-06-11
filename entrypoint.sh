@@ -1,23 +1,33 @@
 #!/bin/bash
 
-# $1 :: ${{ inputs.auth }}
-# $2 :: ${{ inputs.gist_url }}
-# $3 :: ${{ inputs.gist_title }}
-# $4 :: ${{ inputs.gist_description }}
-# $5 :: ${{ inputs.github_file }}
+# $1 :: ${{ inputs.auth_token }}
+# $2 :: ${{ inputs.auth_user }}
+# $3 :: ${{ inputs.auth_email }}
+# $4 :: ${{ inputs.gist_url }}
+# $5 :: ${{ inputs.file }}
+# $6 :: ${{ inputs.history }}
 
 auth_token=$1
+auth_user=$2
+auth_email=$4
+gist_url=$4
+file=$5
+history=$6
 
-gist_api="https://api.github.com/gists/"
-gist_id=$(grep -Po "\w+$" <<< $2)
-gist_endpoint=$gist_api$gist_id
+git config --global user.email ${auth_email}
+git config --global user.name ${auth_user}
 
-title=$(echo $3 | sed 's/\"/\\"/g')
-description=$(echo $4 | sed 's/\"/\\"/g')
-content=$(sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' $5 | sed 's/\"/\\"/g')
+gist_url_array=($(sed 's|//|\n|g' <<< "$gist_url"))
 
-
-curl -s -X PATCH \
-    -H "Content-Type: application/json" \
-    -H "Authorization: token $auth_token" \
-    -d '{"description": "'"$description"'", "files": {"'"$title"'": {"content": "'"$content"'"}}}' $gist_endpoint
+git clone ${gist_url_array[0]}//${auth_user}:${auth_token}@${gist_url_array[1]} gist
+gist_file=$(ls gist)
+cat ${file} > gist/${gist_file}
+cd gist
+git add ${gist_file}
+if [[ "$history" = true ]]; then
+    git commit -m 'update gist via gist-sync-action'
+    git push
+else
+    git commit --amend -m 'update gist via gist-sync-action'
+    git push -f
+fi

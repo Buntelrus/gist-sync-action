@@ -20,9 +20,10 @@ jobs:
       - uses: popsiclestick/gist-sync-action@v1.0.0
         id: sync
         with:
-          auth: ${{ secrets.GIST_TOKEN }}
+          auth_token: ${{ secrets.GIST_TOKEN }}
+          auth_user: <USER_NAME>
+          auth_email: <USER_EMAIL>
           gist_url: https://gist.github.com/<USER_NAME>/<GIST_ID>
-          gist_title: Example Gist Title
-          gist_description: Example Gist Description
-          github_file: filename-to-sync
+          file: file-to-sync
+          history: true or false
 ```
