@@ -16,7 +16,11 @@ title=$(echo $3 | sed 's/\"/\\"/g')
 description=$(echo $4 | sed 's/\"/\\"/g')
 content=$(sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' $5 | sed 's/\"/\\"/g')
 
-json='{"description": "'"$description"'", "files": {"'"$title"'": {"content": "'"$content"'"}}}'
+json=$( jq -n \
+                  --arg description "$description" \
+                  --arg title "$title" \
+                  --arg content "$content" \
+                  '{description: $description, files: {$title: {content: $content}}}' )
 echo $json
 
 #curl -s -X PATCH \
