@@ -20,7 +20,7 @@ json=$( jq -n \
                   --arg description "$description" \
                   --arg title "$title" \
                   --arg content "$content" \
-                  '{description: $description, files: {$title: {content: $content}}}' )
+                  '{description: $description, files: {filetitle: {content: $content}}}' )
 echo $json
 
 #curl -s -X PATCH \
