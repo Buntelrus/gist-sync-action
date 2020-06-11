@@ -22,4 +22,4 @@ json='{"description": "'"$description"'", "files": {"'"$title"'": {"content": "'
 curl -s -X PATCH \
     -H "Content-Type: application/json" \
     -H "Authorization: token $auth_token" \
-    -d "$(jq -aRs . <<< "$json")" $gist_endpoint
+    -d $(jq -aRs . <<< "$json") $gist_endpoint
