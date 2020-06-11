@@ -17,7 +17,7 @@ description=$(echo $4 | sed 's/\"/\\"/g')
 content=$(sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' $5 | sed 's/\"/\\"/g')
 
 json='{"description": "'"$description"'", "files": {"'"$title"'": {"content": "'"$content"'"}}}'
-echo $json
+echo jq -aRs . <<< "$json"
 
 #curl -s -X PATCH \
 #    -H "Content-Type: application/json" \
