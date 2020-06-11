@@ -14,7 +14,7 @@ gist_endpoint=$gist_api$gist_id
 
 title=$(echo $3 | sed 's/\"/\\"/g')
 description=$(echo $4 | sed 's/\"/\\"/g')
-content=$(sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' $5 | sed 's/\"/\\"/g')
+content=$(echo $5 | sed 's/\"/\\"/g')
 
 json=$( jq -n \
                   --arg description "$description" \
