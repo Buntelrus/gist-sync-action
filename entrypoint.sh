@@ -16,11 +16,9 @@ title=$(echo $3 | sed 's/\"/\\"/g')
 description=$(echo $4 | sed 's/\"/\\"/g')
 content=$(sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' $5 | sed 's/\"/\\"/g')
 
-echo $gist_id
-echo $gist_endpoint
-echo $title
-echo $description
-echo $content
+declare -A log
+log=([gist_id]=$gist_id [gist_endpoint]=$gist_endpoint [title]=$title [description]=$description [content]=$content)
+typeset -p log
 
 #curl -s -X PATCH \
 #    -H "Content-Type: application/json" \
