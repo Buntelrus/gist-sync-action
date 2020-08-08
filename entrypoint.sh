@@ -20,7 +20,11 @@ git config --global user.name ${auth_user}
 gist_url_array=($(sed 's|//|\n|g' <<< "$gist_url"))
 
 git clone ${gist_url_array[0]}//${auth_user}:${auth_token}@${gist_url_array[1]} gist
-gist_file=$(ls gist)
+file_name_parts=($(echo $file | tr "/" "\n"))
+gist_file=${file_name_parts[-1]}
+if [[ ! -f gist/${gist_file} ]]; then
+    touch gist/${gist_file}
+fi
 cat ${file} > gist/${gist_file}
 cd gist
 git add ${gist_file}
