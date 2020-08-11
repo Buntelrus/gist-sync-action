@@ -1,5 +1,5 @@
 name: "gist-sync"
-author: "Michael Salsone"
+author: "Buntel"
 description: "Sync a Gist from a Github file"
 inputs:
   auth_token:
@@ -14,8 +14,11 @@ inputs:
   gist_url:
     description: "Url to gist"
     required: true
-  file:
-    description: "The Filename with the contents we want to mirror"
+  dir:
+    description: "directory where you want to copy the files from"
+    required: true
+  files:
+    description: "The file names with the contents we want to mirror"
     required: true
   history:
     description: "Can be true or false. If false I'll use git commit --amend to not add revisions. Default is false"
@@ -28,7 +31,8 @@ runs:
     - ${{ inputs.auth_user }}
     - ${{ inputs.auth_email }}
     - ${{ inputs.gist_url }}
-    - ${{ inputs.file }}
+    - ${{ inputs.dir }}
+    - ${{ inputs.files }}
     - ${{ inputs.history }}
 branding:
   icon: 'code'
